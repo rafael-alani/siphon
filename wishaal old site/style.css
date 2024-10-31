@@ -132,7 +132,7 @@ button:hover {
 .manifesto {
   background-color: #f5f5f5;
   color: #333;
-  padding: 60px 10%;
+  padding: 30px 10%;
   text-align: center;
 }
 
@@ -157,4 +157,37 @@ button:hover {
 
 .footer p {
   margin: 5px 0;
+}
+
+/* Responsive Part - to be improved with fancy stuff later (probably) */
+@media (max-width: 768px) {
+  .menu {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .headline-box {
+    padding: 30px 5%;
+  }
+
+  .headline {
+    text-align: center;
+  }
+
+  .main-headline {
+    font-size: 2rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+  }
+
+  .footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 2%;
+    font-size: 0.9rem;
+  }
 }
