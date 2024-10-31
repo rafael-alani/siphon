@@ -1,0 +1,108 @@
+/* #447abd */
+
+body{
+  margin: 0;
+  margin-left:20vw;
+  margin-right: 20vw;
+  font-family: "Raleway";
+  font-weight: 300;
+}
+
+button {
+  align-self: flex-start;
+  padding: 16px 30px 16px 30px;
+  font-size: 20px;
+  border-radius: 16px;
+  border: none;
+  margin: 5px 0px 5px 0px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.menu {
+  display: flex;
+  height: 70px;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu img {
+  width: 80px;
+}
+
+.logobox {
+  display: flex;
+  align-items: center;
+}
+
+.logobox .tagline {
+  position: relative;
+  left: 10px;
+}
+
+.logobox h2 {
+  margin: 0;
+}
+
+.menu a {
+  color: black;
+  text-decoration: none;
+}
+
+.menu ul {
+    list-style-type: none; /* Remove bullet points */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    display: flex; /* Arrange items in a row */
+    gap: 15px; /* Space between items */
+    position: relative;
+    right: 30px;
+  }
+
+menu li {
+  padding: 10px; /* Optional padding for spacing */
+}
+
+
+.headline-box {
+  height: calc(75vh - 100px);
+  /* background-color:beige; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.headline {
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  margin-right: 80px;
+}
+
+.main-headline {
+  font-size: 50px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.sub-headline {
+  margin-bottom: 30px;
+}
+
+.headline-box img {
+  width: 500px;
+  box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.1); /* Light shadow */
+  border-radius: 5px; /* Rounds the corners */
+  transition: top 0.3s ease; /* Smooth transition */
+  z-index: 1000; /* Ensure it appears above other content */
+  margin: 10px; /* Optional: creates space around the menu */
+}
+
+.manifesto {
+  height: 300px;
+  background-color:burlywood;
+}
