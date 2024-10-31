@@ -1,5 +1,16 @@
 // #mathober2024
 
+// Idk what's going on with the rest of this file but this function is necessary to make the responsive design pretty
+document.addEventListener("DOMContentLoaded", function() {
+  const hamburger = document.querySelector(".hamburger");
+  const nav = document.querySelector("nav");
+
+  hamburger.addEventListener("click", () => {
+    nav.classList.toggle("active");
+    hamburger.classList.toggle("active");
+  });
+});
+
 const bgCol = "#447abd";
 const gCol = "#ffffff";
 const nGrid = 20;

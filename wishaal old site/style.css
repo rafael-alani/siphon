@@ -1,5 +1,4 @@
 /* #447abd */
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -134,17 +133,54 @@ button:hover {
   color: #333;
   padding: 30px 10%;
   text-align: center;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
 }
 
 .manifesto h2 {
   font-size: 2rem;
+  font-weight: 600;
   margin-bottom: 15px;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8); /* Adds a soft glow effect */
 }
 
 .manifesto p {
   max-width: 600px;
   margin: 0 auto;
   font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+}
+
+.to-be-added:hover, .manifesto:hover {
+  transform: translateY(-5px);  /* Slight lift effect on hover */
+}
+
+/* Do not mind the excessive fancy cool styling of this class, we can work on this later*/
+.to-be-added {
+  background: linear-gradient(135deg, #e3f2fd 30%, #bbdefb 70%);
+  color: #333;
+  padding: 30px 10%; 
+  text-align: center;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease; 
+}
+
+.to-be-added h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #007bff;
+  margin-bottom: 15px;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.to-be-added p {
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 1rem;
+  line-height: 1.8; 
+  color: #555;
+  padding: 0 20px;
 }
 
 .footer {
@@ -163,7 +199,55 @@ button:hover {
 @media (max-width: 768px) {
   .menu {
     flex-direction: column;
+    align-items: center;
+    padding: 15px 5%;
+  }
+
+  .logobox {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .company-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .motto {
+    display: none; /*Hide this on smaller screens for simplicity */
+  }
+
+  .menu ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 0;
+    padding-bottom: 0px;
+    width: 100%;
+    list-style-type: none;
+    border-top: 1px solid #ddd;
+  }
+
+  .menu ul li {
     text-align: center;
+  }
+
+  .menu ul a {
+    font-size: 1rem;
+    color: #333;
+    padding: 8px;
+    text-decoration: none;
+    transition: color 0.3s ease, background-color 0.3s ease;
+  }
+
+  .menu ul a:hover {
+    color: #fff;
+    background-color: #007acc;
+    border-radius: 4px;
   }
 
   .headline-box {
