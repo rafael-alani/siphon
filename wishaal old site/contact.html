@@ -35,7 +35,7 @@
         <p>We'd love to hear from you! Please reach out with any questions, comments, or feedback.</p>
 
         <div class="contact-form-container">
-            <form class="contact-form" action="#" method="post">
+            <form class="contact-form" action="#" method="post" id="contactForm">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" id="name" name="name" placeholder="Your name" required>
@@ -49,7 +49,8 @@
                     <textarea id="message" name="message" placeholder="Your message" rows="6" required></textarea>
                 </div>
                 <button type="submit" class="submit-btn">Send Message</button>
-            </form>
+                <p id="feedback" style="display:none; color:green;">Your message has been sent!</p>
+            </form>            
         </div>
 
         <div class="contact-info">
@@ -71,6 +72,17 @@
     <footer class="footer">
         <p>&copy; 2024 Siphon Energy Solutions. All rights reserved.</p>
         <p>Developers: Rafael, Musab, Wishaal, Ruben, Jan-Julius</p>
-      </footer>
+    </footer>
+
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            document.getElementById("feedback").style.display = "block";
+            document.getElementById("contactForm").reset();
+            setTimeout(function() {
+                document.getElementById("feedback").style.display = "none";
+            }, 4000);
+        });
+    </script>    
 </body>
 </html>
