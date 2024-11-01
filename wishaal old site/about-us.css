@@ -162,3 +162,96 @@ h1, h2, h3 {
 .footer p {
     margin: 5px 0;
 }
+
+@media (max-width: 768px) {
+    .menu {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px 5%;
+    }
+
+    .logobox {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .company-name {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .motto {
+        display: none; /*Hide this on smaller screens for simplicity */
+    }
+
+    .menu ul {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        padding: 10px 0;
+        padding-bottom: 0px;
+        width: 100%;
+        list-style-type: none;
+        border-top: 1px solid #ddd;
+    }
+
+    .menu ul li {
+        text-align: center;
+    }
+
+    .menu ul a {
+        font-size: 1rem;
+        color: #333;
+        padding: 8px;
+        text-decoration: none;
+        transition: color 0.3s ease, background-color 0.3s ease;
+    }
+
+    .menu ul a:hover {
+        color: #fff;
+        background-color: #007acc;
+        border-radius: 4px;
+    }
+
+    .about-mission {
+        padding: 30px;
+    }
+
+    .about-mission h1 {
+        font-size: 2rem;
+    }
+
+    .about-mission p {
+        font-size: 1rem;
+    }
+
+    .founding-story {
+        flex-direction: column;
+        padding: 40px 5%;
+    }
+
+    .founding-text, .group-photo {
+        width: 90%;
+        max-width: none;
+    }
+
+    .team-showcase h2 {
+        font-size: 2rem;
+    }
+
+    .team-member {
+        width: 140px;
+    }
+
+    .team-member h3 {
+        font-size: 1rem;
+    }
+
+    .team-member p {
+        font-size: 0.85rem;
+    }
+}
