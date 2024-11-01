@@ -36,7 +36,7 @@
       <p class="sub-headline">Reduce your energy bill by buying and selling sustainable energy locally. We provide an automated peer-to-peer energy-trading platform to exchange locally produced energy.</p>
       <div class="button-container">
         <button class="primary-btn">Talk to an Expert</button>
-        <button class="secondary-btn">Try out a Demo</button>
+        <button class="secondary-btn" id="demoButton">Try out a Demo</button>
       </div>
     </section>
     <div class="image-container">
@@ -59,5 +59,12 @@
     <p>Musab, Wishaal, Rafael, Ruben, Jan-Julius</p>
   </footer>
 
+  <script>
+      document.getElementById("demoButton").addEventListener("click", function() {
+          window.location.href = "https://fanciful-twilight-e6b96d.netlify.app"; 
+          // This link should be replaced with fanciful-twilight-e6b96d.netlify.app/login
+          // However, it weirdly throws error 404, we can find a way around of connecting both ends maybe
+      });
+  </script>
 </body>
 </html>
