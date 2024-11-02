@@ -40,7 +40,7 @@ function App() {
             <Route path="analytics" element={<Analytics />} />
           </Route>
           
-          <Route path="/demo" element={<DashboardLayout demoMode={true} />} />
+          <Route path="/demo" element={<DashboardLayout/>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

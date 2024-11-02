@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState } from 'react';
 
 interface AuthContextType {
@@ -12,7 +13,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const login = (email: string, password: string) => {
-    // In a real app, validate credentials here
+    console.log(email, password);
     setIsAuthenticated(true);
   };
 

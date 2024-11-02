@@ -1,9 +1,18 @@
-import { Zap } from 'lucide-react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { DEMO_CREDENTIALS } from '../contexts/mockAuth';
 
 export default function LandingLayout() {
   const location = useLocation();
-  
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  const handleDemoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    login("demo@example.com", "password");
+    navigate('/dashboard');
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="shadow-[0px_4px_12px_rgba(0,0,0,0.1)] font-['Raleway']">
@@ -50,12 +59,12 @@ export default function LandingLayout() {
               >
                 Login
               </Link>
-              <Link
-                to="/login"
+              <button
+                onClick={handleDemoClick}
                 className="px-4 py-2 bg-[#007bff] text-white rounded-md hover:bg-[#0056b3] transition-colors duration-300 font-semibold"
               >
                 Demo
-              </Link>
+              </button>
             </div>
           </div>
         </nav>

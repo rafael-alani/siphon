@@ -2,11 +2,7 @@ import { BarChart3, BookOpen, LogOut, Users, Zap } from 'lucide-react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
-interface DashboardLayoutProps {
-  demoMode?: boolean;
-}
-
-export default function DashboardLayout({ demoMode = false }: DashboardLayoutProps) {
+export default function DashboardLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const { logout } = useAuth();
@@ -14,13 +10,6 @@ export default function DashboardLayout({ demoMode = false }: DashboardLayoutPro
   const handleLogout = () => {
     logout();
     navigate('/login');
-  };
-
-  // Use demoMode to show mock data or specific demo features
-  const demoUser = {
-    name: 'Demo User',
-    email: 'demo@example.com',
-    // ... other demo data
   };
 
   return (
