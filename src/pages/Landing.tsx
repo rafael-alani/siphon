@@ -1,4 +1,4 @@
-import { ArrowRight, Zap, Leaf, Shield, Users } from 'lucide-react';
+import { ArrowRight, Leaf, Shield, Users, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Landing() {

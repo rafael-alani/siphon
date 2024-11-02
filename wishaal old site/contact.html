@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div class="menu">
+    <!-- <div class="menu">
         <div class="logobox">
         <a href="index.html">
           <img src="img/transparent-logo.png" alt="Siphon Logo">
@@ -28,8 +28,17 @@
           <li><a href="./about-us.html">About us</a></li>
           <li><a href="./contact.html">Contact</a></li>
         </ul>
-      </div>
-
+      </div> -->
+      <body>
+        <div id="header"></div>
+      <script>
+        fetch('header.html')
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('header').innerHTML = data;
+          });
+      </script>
+      
     <section class="contact-section">
         <h1>Contact Us</h1>
         <p>We'd love to hear from you! Please reach out with any questions, comments, or feedback.</p>
