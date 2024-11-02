@@ -6,43 +6,6 @@ export default function LandingLayout() {
   
   return (
     <div className="min-h-screen flex flex-col">
-      {/* <header className="bg-white shadow-sm">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2">
-            <Zap className="h-8 w-8 text-green-600" />
-            <span className="text-xl font-bold text-gray-900">EnergyPeer</span>
-          </Link>
-          
-          <div className="flex items-center space-x-8">
-            <Link
-              to="/"
-              className={`text-sm font-medium ${
-                location.pathname === '/'
-                  ? 'text-green-600'
-                  : 'text-gray-500 hover:text-gray-900'
-              }`}
-            >
-              Home
-            </Link>
-            <Link
-              to="/about"
-              className={`text-sm font-medium ${
-                location.pathname === '/about'
-                  ? 'text-green-600'
-                  : 'text-gray-500 hover:text-gray-900'
-              }`}
-            >
-              About
-            </Link>
-            <Link
-              to="/login"
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-            >
-              Login
-            </Link>
-          </div>
-        </nav>
-      </header> */}
       <header className="shadow-[0px_4px_12px_rgba(0,0,0,0.1)] font-['Raleway']">
         <nav className="flex justify-between items-center px-[10%] py-5 bg-white md:flex-row flex-col">
           <Link to="/" className="flex items-center w-full md:w-auto mb-2.5 md:mb-0">
@@ -53,41 +16,63 @@ export default function LandingLayout() {
             </div>
           </Link>
           
-          <ul className="flex gap-6 list-none w-full md:w-auto justify-center items-center pt-2.5 md:pt-0 border-t md:border-t-0 border-gray-200">
-            <li>
+          <div className="flex items-center gap-6">
+            <ul className="flex gap-6 list-none w-full md:w-auto justify-center items-center pt-2.5 md:pt-0 border-t md:border-t-0 border-gray-200">
+              <li>
+                <Link
+                  to="/solutions"
+                  className="text-gray-700 no-underline font-semibold hover:text-[#007bff] transition-colors duration-300"
+                >
+                  Our solutions
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/about"
+                  className="text-gray-700 no-underline font-semibold hover:text-[#007bff] transition-colors duration-300"
+                >
+                  About us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact"
+                  className="text-gray-700 no-underline font-semibold hover:text-[#007bff] transition-colors duration-300"
+                >
+                  Contact
+                </Link>
+              </li>
+            </ul>
+            <div className="flex gap-3">
               <Link
-                to="/solutions"
-                className="text-gray-700 no-underline font-semibold hover:text-[#007bff] transition-colors duration-300"
+                to="/login"
+                className="px-4 py-2 bg-[#007bff] text-white rounded-md hover:bg-[#0056b3] transition-colors duration-300 font-semibold"
               >
-                Our solutions
+                Login
               </Link>
-            </li>
-            <li>
               <Link
-                to="/about"
-                className="text-gray-700 no-underline font-semibold hover:text-[#007bff] transition-colors duration-300"
+                to="/login"
+                className="px-4 py-2 bg-[#007bff] text-white rounded-md hover:bg-[#0056b3] transition-colors duration-300 font-semibold"
               >
-                About us
+                Demo
               </Link>
-            </li>
-            <li>
-              <Link
-                to="/contact"
-                className="text-gray-700 no-underline font-semibold hover:text-[#007bff] transition-colors duration-300"
-              >
-                Contact
-              </Link>
-            </li>
-          </ul>
+            </div>
+          </div>
         </nav>
       </header>
 
       <main className="flex-grow h-[calc(100vh-4rem-176px)]">
         {location.pathname === '/' ? (
-          <iframe src="wishaal old site/index.html" className="w-full h-full" title="Landing Page" />
+          <iframe src="/wishaal old site/index.html" className="w-full h-full" title="Landing Page" />
+        ) : location.pathname === '/solutions' ? (
+          <iframe src="/wishaal old site/solutions.html" className="w-full h-full" title="Solutions" />
+        ) : location.pathname === '/about' ? (
+          <iframe src="/wishaal old site/about-us.html" className="w-full h-full" title="About Us" />
+        ) : location.pathname === '/contact' ? (
+          <iframe src="/wishaal old site/contact.html" className="w-full h-full" title="Contact" />
         ) : (
           <Outlet />
-        )}
+        )}  
       </main>
 
       <footer className="bg-gray-50">

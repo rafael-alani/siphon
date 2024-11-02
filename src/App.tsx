@@ -1,13 +1,15 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import LandingLayout from './layouts/LandingLayout';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import DashboardLayout from './layouts/DashboardLayout';
-import Landing from './pages/Landing';
+import LandingLayout from './layouts/LandingLayout';
 import About from './pages/About';
-import Login from './pages/Login';
+import Contact from './pages/Contact';
+import Analytics from './pages/dashboard/Analytics';
 import Ledger from './pages/dashboard/Ledger';
 import Participants from './pages/dashboard/Participants';
-import Analytics from './pages/dashboard/Analytics';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
+import Landing from './pages/Landing';
+import Login from './pages/Login';
+import Solutions from './pages/Solutions';
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuth();
@@ -23,6 +25,8 @@ function App() {
             <Route index element={<Landing />} />
             <Route path="about" element={<About />} />
             <Route path="login" element={<Login />} />
+            <Route path="contact" element={<Contact />} />
+            <Route path="solutions" element={<Solutions />} />
           </Route>
           
           <Route path="/dashboard" element={
@@ -35,6 +39,8 @@ function App() {
             <Route path="participants" element={<Participants />} />
             <Route path="analytics" element={<Analytics />} />
           </Route>
+          
+          <Route path="/demo" element={<DashboardLayout demoMode={true} />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
