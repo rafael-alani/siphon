@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
+import Button from '../components/Button';
 import Card from '../components/Card';
 import Input from '../components/Input';
-import Button from '../components/Button';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -75,13 +75,20 @@ export default function Login() {
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-green-600 hover:text-green-500">
+                <Link
+                  to="/forgot-password"
+                  className="text-[#007bff] hover:text-[#0056b3] transition-colors duration-300"
+                >
                   Forgot your password?
-                </a>
+                </Link>
               </div>
             </div>
 
-            <Button type="submit" fullWidth>
+            <Button 
+              type="submit" 
+              fullWidth 
+              className="bg-blue-600 hover:bg-blue-700 text-white transition-colors duration-300"
+            >
               Sign in
             </Button>
           </form>

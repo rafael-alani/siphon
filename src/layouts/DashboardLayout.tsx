@@ -9,7 +9,7 @@ export default function DashboardLayout() {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/');
   };
 
   return (
@@ -31,7 +31,7 @@ export default function DashboardLayout() {
                 </div>
               </div>
               </Link>
-              
+
               <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                 <Link
                   to="/dashboard/ledger"
