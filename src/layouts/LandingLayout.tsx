@@ -19,7 +19,7 @@ export default function LandingLayout() {
       <header className="shadow-[0px_4px_12px_rgba(0,0,0,0.1)] font-['Raleway']">
         <nav className="flex justify-between items-center px-[10%] py-5 bg-white">
           <Link to="/" className="flex items-center">
-            <img src="/wishaal old site/img/transparent-logo.png" alt="Siphon Logo" className="w-[60px] mr-2.5" />
+            <img src="./old_site/img/transparent-logo.png" alt="Siphon Logo" className="w-[60px] mr-2.5" />
             <div className="flex flex-col">
               <h2 className="text-2xl font-semibold text-[#0056b3] m-0">Siphon</h2>
               <span className="text-gray-600 hidden md:block">Revolutionising the exchange of reliable energy</span>
