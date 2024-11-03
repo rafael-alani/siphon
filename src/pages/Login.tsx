@@ -20,7 +20,7 @@ export default function Login() {
       await login(email, password);
       navigate('/dashboard');
     } catch (err) {
-      setError('Invalid email or password');
+      setError('Invalid email or password' + err);
     }
   };
 
@@ -87,7 +87,7 @@ export default function Login() {
             <Button 
               type="submit" 
               fullWidth 
-              className="bg-blue-600 hover:bg-blue-700 text-white transition-colors duration-300"
+              className="!bg-blue-600 hover:!bg-blue-700 text-white transition-colors duration-300"
             >
               Sign in
             </Button>
