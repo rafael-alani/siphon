@@ -65,13 +65,13 @@ export default function LandingLayout() {
 
       <main className="flex-grow h-[calc(100vh-4rem-176px)]">
         {location.pathname === '/' ? (
-          <iframe src="/wishaal old site/index.html" className="w-full h-full" title="Landing Page" />
+          <iframe src="/old_site/index.html" className="w-full h-full" title="Landing Page" />
         ) : location.pathname === '/solutions' ? (
-          <iframe src="/wishaal old site/solutions.html" className="w-full h-full" title="Solutions" />
+          <iframe src="/old_site/solutions.html" className="w-full h-full" title="Solutions" />
         ) : location.pathname === '/about' ? (
-          <iframe src="/wishaal old site/about-us.html" className="w-full h-full" title="About Us" />
+          <iframe src="/old_site/about-us.html" className="w-full h-full" title="About Us" />
         ) : location.pathname === '/contact' ? (
-          <iframe src="/wishaal old site/contact.html" className="w-full h-full" title="Contact" />
+          <iframe src="/old_site/contact.html" className="w-full h-full" title="Contact" />
         ) : (
           <Outlet />
         )}  

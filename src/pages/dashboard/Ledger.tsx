@@ -4,28 +4,28 @@ import Card from '../../components/Card';
 import StatusBadge from '../../components/StatusBadge';
 import { Trade } from '../../types/energy';
 
-// Mock data
-const mockTrades: Trade[] = [
-  {
-    id: '1',
-    type: 'buy',
-    commodity: 'electricity',
-    amount: 50,
-    price: 75.20,
-    timestamp: '2024-03-10T14:30:00Z',
-    status: 'completed'
-  },
-  {
-    id: '2',
-    type: 'sell',
-    commodity: 'hydrogen',
-    amount: 30,
-    price: 120.50,
-    timestamp: '2024-03-10T14:25:00Z',
-    status: 'pending'
-  },
-  // Add more mock trades as needed
-];
+// // Mock data
+const mockTrades: Trade[] = [];
+//   {
+//     id: '1',
+//     type: 'buy',
+//     commodity: 'electricity',
+//     amount: 50,
+//     price: 75.20,
+//     timestamp: '2024-03-10T14:30:00Z',
+//     status: 'completed'
+//   },
+//   {
+//     id: '2',
+//     type: 'sell',
+//     commodity: 'hydrogen',
+//     amount: 30,
+//     price: 120.50,
+//     timestamp: '2024-03-10T14:25:00Z',
+//     status: 'pending'
+//   },
+//   // Add more mock trades as needed
+// ];
 
 // Add new mock data for offers and requests
 const mockOffers: Trade[] = [
@@ -75,50 +75,50 @@ export default function Ledger() {
     const newRequests = [...requests];
     const newHistory = [...tradeHistory];
 
-    newOffers.sort((a, b) => a.price - b.price); // Sort offers by lowest price
-    newRequests.sort((a, b) => b.price - a.price); // Sort requests by highest price
+    // Sort by best price
+    newOffers.sort((a, b) => a.price - b.price); // Lowest first
+    newRequests.sort((a, b) => b.price - a.price); // Highest first
 
-    for (let i = 0; i < newOffers.length; i++) {
-      const offer = newOffers[i];
+    // Keep matching while we have offers and requests, and the prices match
+    while (newOffers.length > 0 && newRequests.length > 0) {
+      const offer = newOffers[0];
+      const request = newRequests[0];
+
+      // Only match if request price >= offer price
+      if (request.price < offer.price) break;
+
+      // Calculate trade amount
+      const tradeAmount = Math.min(offer.amount, request.amount);
       
-      for (let j = 0; j < newRequests.length; j++) {
-        const request = newRequests[j];
-        
-        if (request.price >= offer.price) {
-          // Calculate trade amount
-          const tradeAmount = Math.min(offer.amount, request.amount);
-          
-          // Create new trade history entry
-          const newTrade: Trade = {
-            id: `${Date.now()}-${Math.random()}`,
-            type: 'buy',
-            commodity: offer.commodity,
-            amount: tradeAmount,
-            price: offer.price,
-            timestamp: new Date().toISOString(),
-            status: 'completed'
-          };
-          
-          // Update amounts
-          offer.amount -= tradeAmount;
-          request.amount -= tradeAmount;
-          
-          // Add to history
-          newHistory.push(newTrade);
-          
-          // Remove completed trades
-          if (offer.amount <= 0) {
-            newOffers.splice(i, 1);
-            i--;
-            break;
-          }
-          
-          if (request.amount <= 0) {
-            newRequests.splice(j, 1);
-            j--;
-          }
-        }
+      // Create trade history entry
+      const newTrade: Trade = {
+        id: `${Date.now()}-${Math.random()}`,
+        type: 'buy',
+        commodity: offer.commodity,
+        amount: tradeAmount,
+        price: offer.price,
+        timestamp: new Date().toISOString(),
+        status: 'completed'
+      };
+      
+      // Case 1: Equal amounts - remove both
+      if (offer.amount === request.amount) {
+        newOffers.shift();
+        newRequests.shift();
       }
+      // Case 2: Offer amount > Request amount - update offer
+      else if (offer.amount > request.amount) {
+        offer.amount -= request.amount;
+        newRequests.shift();
+      }
+      // Case 3: Request amount > Offer amount - update request
+      else {
+        request.amount -= offer.amount;
+        newOffers.shift();
+      }
+
+      // Add to history
+      newHistory.push(newTrade);
     }
 
     setOffers(newOffers);
@@ -143,12 +143,20 @@ export default function Ledger() {
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold text-gray-900">Trading Ledger</h1>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Left Column - Market */}
         <div className="space-y-6">
           <Card>
             <h2 className="text-lg font-medium mb-4">Current Market</h2>
-            <div className="flex justify-between p-4 bg-gray-50 rounded-lg mb-4">
+            
+            {/* Offers Table */}
+            <h3 className="text-md font-medium mb-2">Offers ({offers.length})</h3>
+            <TableComponent 
+              trades={offers.sort((a, b) => b.price - a.price)} // Sort high to low
+            />
+            
+            {/* Market Overview */}
+            <div className="flex justify-between p-4 bg-gray-50 rounded-lg my-6">
               <div>
                 <p className="text-sm text-gray-500">Lowest Offer</p>
                 <p className="text-lg font-bold text-green-600">
@@ -163,13 +171,11 @@ export default function Ledger() {
               </div>
             </div>
             
-            {/* Offers Table */}
-            <h3 className="text-md font-medium mb-2">Offers ({offers.length})</h3>
-            <TableComponent trades={offers} />
-            
             {/* Requests Table */}
-            <h3 className="text-md font-medium mb-2 mt-6">Requests ({requests.length})</h3>
-            <TableComponent trades={requests} />
+            <h3 className="text-md font-medium mb-2">Requests ({requests.length})</h3>
+            <TableComponent 
+              trades={requests.sort((a, b) => b.price - a.price)} // Sort high to low
+            />
           </Card>
         </div>
 
