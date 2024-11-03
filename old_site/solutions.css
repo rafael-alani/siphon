@@ -82,6 +82,7 @@ h1, h2, h3 {
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
     margin-bottom: 40px;
     transition: transform 0.3s ease;
+    text-align: center;
 }
 
 .solution-block:hover {
@@ -100,9 +101,10 @@ h1, h2, h3 {
     display: flex;
     gap: 20px;
     align-items: flex-start;
-    justify-content: center;
+    justify-content: center; 
     flex-wrap: wrap;
     max-width: 100%;
+    margin: 0 auto; 
 }
 
 .content ul {
@@ -125,12 +127,13 @@ h1, h2, h3 {
     color: #555;
     line-height: 1.8;
     text-align: left;
+    align-items: center;
 }
 
 .figures-row {
     display: flex;
     gap: 20px;
-    justify-content: flex-start;
+    justify-content: center;
     flex: 2;
 }
 
