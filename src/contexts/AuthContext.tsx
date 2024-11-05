@@ -12,8 +12,8 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = (email: string, password: string) => {
-    console.log(email, password);
+  const login = () => {
+    // console.log(email, password); why do you log these on the console lol
     setIsAuthenticated(true);
   };
 
