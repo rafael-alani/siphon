@@ -1,6 +1,4 @@
-interface StatusBadgeProps {
-  status: 'surplus' | 'deficit' | 'balanced' | 'pending' | 'completed' | 'cancelled';
-}
+import { StatusBadgeProps } from "../types/energy";
 
 export default function StatusBadge({ status }: StatusBadgeProps) {
   const styles = {
@@ -13,7 +11,7 @@ export default function StatusBadge({ status }: StatusBadgeProps) {
   };
 
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[status]}`}>
+    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[status.toLowerCase() as keyof typeof styles]}`}>
       {status.charAt(0).toUpperCase() + status.slice(1)}
     </span>
   );

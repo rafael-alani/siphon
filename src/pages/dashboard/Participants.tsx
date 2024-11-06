@@ -1,43 +1,34 @@
-import { useState } from 'react';
-import { Participant, CommodityType } from '../../types/energy';
+import { useEffect, useState } from 'react';
 import Card from '../../components/Card';
 import StatusBadge from '../../components/StatusBadge';
-
-// Mock data
-const mockParticipants: Participant[] = [
-  {
-    id: '1',
-    name: 'Solar Farm Alpha',
-    type: 'producer',
-    status: {
-      electricity: 'surplus',
-      hydrogen: 'balanced',
-      gas: 'balanced',
-      heat: 'surplus'
-    },
-    location: 'Grid Zone A',
-    lastActive: '2024-03-10T14:30:00Z'
-  },
-  {
-    id: '2',
-    name: 'Industrial Complex Beta',
-    type: 'prosumer',
-    status: {
-      electricity: 'deficit',
-      hydrogen: 'surplus',
-      gas: 'deficit',
-      heat: 'balanced'
-    },
-    location: 'Grid Zone B',
-    lastActive: '2024-03-10T14:25:00Z'
-  },
-  // Add more mock participants as needed
-];
-
-const commodities: CommodityType[] = ['electricity', 'hydrogen', 'gas', 'heat'];
+import { Commodity, Company } from '../../types/api';
+import { API_URL, commodities } from '../../types/consts';
 
 export default function Participants() {
-  const [selectedCommodity, setSelectedCommodity] = useState<CommodityType>('electricity');
+  const [selectedCommodity, setSelectedCommodity] = useState<Commodity>(Commodity.ELECTRICITY);
+  const [participants, setParticipants] = useState<Company[]>([]);
+
+  useEffect(() => {
+    // Initial fetch
+    fetchParticipants();
+
+    // Set up polling every 30 seconds
+    const intervalId = setInterval(fetchParticipants, 30000);
+
+    // Cleanup on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const fetchParticipants = async () => {
+    try {
+      const response = await fetch(`${API_URL}/companies`);
+      if (!response.ok) throw new Error('Failed to fetch participants');
+      const data = await response.json();
+      setParticipants(data);
+    } catch (error) {
+      console.error('Error fetching participants:', error);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -64,15 +55,15 @@ export default function Participants() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {mockParticipants.map((participant) => (
-          <Card key={participant.id}>
+        {participants.map((participant) => (
+          <Card key={participant.name}>
             <div className="space-y-4">
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="text-lg font-medium text-gray-900">{participant.name}</h3>
-                  <p className="text-sm text-gray-500 capitalize">{participant.type}</p>
+                  <p className="text-sm text-gray-500 capitalize">{participant.location}</p>
                 </div>
-                <StatusBadge status={participant.status[selectedCommodity]} />
+                <StatusBadge status={participant.statuses[0].status as 'Pending' | 'Completed'} />
               </div>
               
               <div className="space-y-2">
@@ -83,7 +74,7 @@ export default function Participants() {
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500">Last Active</span>
                   <span className="text-gray-900">
-                    {new Date(participant.lastActive).toLocaleString()}
+                    {new Date(participant.last_active).toLocaleString()}
                   </span>
                 </div>
               </div>

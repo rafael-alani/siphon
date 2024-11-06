@@ -1,142 +1,65 @@
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { Commodity, TradeStatus, TradeType } from '../../../src/types/api';
 import Card from '../../components/Card';
 import StatusBadge from '../../components/StatusBadge';
-import { Trade } from '../../types/energy';
+import { API_URL } from '../../types/consts';
+// Update the Trade type to match the API model
+interface Trade {
+  id: string;
+  type: TradeType;
+  commodity: Commodity;
+  amount: {
+    value: number;
+    measurement_unit: string;
+  };
+  price: {
+    value: number;
+    currency: string;
+  };
+  status: TradeStatus;
+  time: string;
+  requester_company: string;
+  fulfiller_company?: string;
+}
 
-// // Mock data
-const mockTrades: Trade[] = [];
-//   {
-//     id: '1',
-//     type: 'buy',
-//     commodity: 'electricity',
-//     amount: 50,
-//     price: 75.20,
-//     timestamp: '2024-03-10T14:30:00Z',
-//     status: 'completed'
-//   },
-//   {
-//     id: '2',
-//     type: 'sell',
-//     commodity: 'hydrogen',
-//     amount: 30,
-//     price: 120.50,
-//     timestamp: '2024-03-10T14:25:00Z',
-//     status: 'pending'
-//   },
-//   // Add more mock trades as needed
-// ];
 
-// Add new mock data for offers and requests
-const mockOffers: Trade[] = [
-  {
-    id: '1',
-    type: 'sell',
-    commodity: 'electricity',
-    amount: 50,
-    price: 75.20,
-    timestamp: '2024-03-10T14:30:00Z',
-    status: 'pending'
-  },
-  // ... more offers
-];
-
-const mockRequests: Trade[] = [
-  {
-    id: '3',
-    type: 'buy',
-    commodity: 'electricity',
-    amount: 50,
-    price: 80.00,
-    timestamp: '2024-03-10T14:25:00Z',
-    status: 'pending'
-  },
-  {
-    id: '4',
-    type: 'buy',
-    commodity: 'electricity',
-    amount: 30,
-    price: 70.50,
-    timestamp: '2024-03-10T14:25:00Z',
-    status: 'pending'
-  },
-  // ... more requests
-];
 
 export default function Ledger() {
-  // Convert mock data to state so we can modify it
-  const [offers, setOffers] = useState<Trade[]>(mockOffers);
-  const [requests, setRequests] = useState<Trade[]>(mockRequests);
-  const [tradeHistory, setTradeHistory] = useState<Trade[]>(mockTrades);
+  // Update state management
+  const [offers, setOffers] = useState<Trade[]>([]);
+  const [requests, setRequests] = useState<Trade[]>([]);
+  const [tradeHistory, setTradeHistory] = useState<Trade[]>([]);
 
-  // Function to handle trade matching
-  const matchTrades = () => {
-    const newOffers = [...offers];
-    const newRequests = [...requests];
-    const newHistory = [...tradeHistory];
-
-    // Sort by best price
-    newOffers.sort((a, b) => a.price - b.price); // Lowest first
-    newRequests.sort((a, b) => b.price - a.price); // Highest first
-
-    // Keep matching while we have offers and requests, and the prices match
-    while (newOffers.length > 0 && newRequests.length > 0) {
-      const offer = newOffers[0];
-      const request = newRequests[0];
-
-      // Only match if request price >= offer price
-      if (request.price < offer.price) break;
-
-      // Calculate trade amount
-      const tradeAmount = Math.min(offer.amount, request.amount);
-      
-      // Create trade history entry
-      const newTrade: Trade = {
-        id: `${Date.now()}-${Math.random()}`,
-        type: 'buy',
-        commodity: offer.commodity,
-        amount: tradeAmount,
-        price: offer.price,
-        timestamp: new Date().toISOString(),
-        status: 'completed'
-      };
-      
-      // Case 1: Equal amounts - remove both
-      if (offer.amount === request.amount) {
-        newOffers.shift();
-        newRequests.shift();
-      }
-      // Case 2: Offer amount > Request amount - update offer
-      else if (offer.amount > request.amount) {
-        offer.amount -= request.amount;
-        newRequests.shift();
-      }
-      // Case 3: Request amount > Offer amount - update request
-      else {
-        request.amount -= offer.amount;
-        newOffers.shift();
-      }
-
-      // Add to history
-      newHistory.push(newTrade);
-    }
-
-    setOffers(newOffers);
-    setRequests(newRequests);
-    setTradeHistory(newHistory);
-  };
-
-  // Check for matches whenever offers or requests change
+  // Add API fetch functions
   useEffect(() => {
-    matchTrades();
-  }, []); // Empty dependency array means this runs once on mount
+    const fetchTrades = async () => {
+      try {
+        const [offersRes, requestsRes, historyRes] = await Promise.all([
+          fetch(API_URL + '/trades/offers').then(res => res.ok ? res.json() : Promise.reject(`Offers API error: ${res.status}`)),
+          fetch(API_URL + '/trades/requests').then(res => res.ok ? res.json() : Promise.reject(`Requests API error: ${res.status}`)),
+          fetch(API_URL + '/trades/history').then(res => res.ok ? res.json() : Promise.reject(`History API error: ${res.status}`))
+        ]);
 
+        setOffers(offersRes);
+        setRequests(requestsRes);
+        setTradeHistory(historyRes);
+      } catch (error) {
+        console.error('Error fetching trades:', error);
+        // Optionally set error state here
+      }
+    };
+
+    fetchTrades();
+  }, []);
+
+  // Update price calculations
   const lowestOffer = offers.length > 0 
-    ? Math.min(...offers.map(offer => offer.price))
+    ? Math.min(...offers.map(offer => offer.price.value))
     : 0;
     
   const highestRequest = requests.length > 0
-    ? Math.max(...requests.map(request => request.price))
+    ? Math.max(...requests.map(request => request.price.value))
     : 0;
 
   return (
@@ -152,7 +75,7 @@ export default function Ledger() {
             {/* Offers Table */}
             <h3 className="text-md font-medium mb-2">Offers ({offers.length})</h3>
             <TableComponent 
-              trades={offers.sort((a, b) => b.price - a.price)} // Sort high to low
+              trades={offers.sort((a, b) => b.price.value - a.price.value)} // Sort high to low
             />
             
             {/* Market Overview */}
@@ -174,7 +97,7 @@ export default function Ledger() {
             {/* Requests Table */}
             <h3 className="text-md font-medium mb-2">Requests ({requests.length})</h3>
             <TableComponent 
-              trades={requests.sort((a, b) => b.price - a.price)} // Sort high to low
+              trades={requests.sort((a, b) => b.price.value - a.price.value)} // Sort high to low
             />
           </Card>
         </div>
@@ -183,9 +106,12 @@ export default function Ledger() {
         <div>
           <Card>
             <h2 className="text-lg font-medium mb-4">Trade History ({tradeHistory.length})</h2>
-            <TableComponent trades={tradeHistory.sort((a, b) => 
-              new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-            )} />
+            <div className="max-h-[600px] overflow-y-auto">
+              <TableComponent trades={tradeHistory
+                .sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
+                // .slice(0, 20)
+              } />
+            </div>
           </Card>
         </div>
       </div>
@@ -193,7 +119,7 @@ export default function Ledger() {
   );
 }
 
-// Extract table into a separate component
+// Update TableComponent to use new Trade interface
 function TableComponent({ trades }: { trades: Trade[] }) {
   return (
     <div className="overflow-x-auto">
@@ -225,7 +151,7 @@ function TableComponent({ trades }: { trades: Trade[] }) {
             <tr key={trade.id}>
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="flex items-center">
-                  {trade.type === 'buy' ? (
+                  {trade.type === TradeType.BUY ? (
                     <ArrowDownRight className="h-5 w-5 text-green-500 mr-2" />
                   ) : (
                     <ArrowUpRight className="h-5 w-5 text-red-500 mr-2" />
@@ -237,16 +163,16 @@ function TableComponent({ trades }: { trades: Trade[] }) {
                 <span className="capitalize">{trade.commodity}</span>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-                {trade.amount} kWh
+                {trade.amount.value} {trade.amount.measurement_unit}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-                ${trade.price.toFixed(2)}
+                {trade.price.currency}{trade.price.value.toFixed(2)}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <StatusBadge status={trade.status} />
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {new Date(trade.timestamp).toLocaleString()}
+                {new Date(trade.time).toLocaleString()}
               </td>
             </tr>
           ))}

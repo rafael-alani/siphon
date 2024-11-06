@@ -1,14 +1,12 @@
-export type CommodityType = 'electricity' | 'hydrogen' | 'gas' | 'heat';
-
-export interface Trade {
-  id: string;
-  type: 'buy' | 'sell';
-  commodity: CommodityType;
-  amount: number;
-  price: number;
-  timestamp: string;
-  status: 'pending' | 'completed' | 'cancelled';
-}
+// export interface Trade {
+//   id: string;
+//   type: 'buy' | 'sell';
+//   commodity: CommodityType;
+//   amount: number;
+//   price: number;
+//   timestamp: string;
+//   status: 'pending' | 'completed' | 'cancelled';
+// }
 
 export interface Participant {
   id: string;
@@ -28,4 +26,8 @@ export interface GridStatus {
   load: number;
   capacity: number;
   timestamp: string;
+}
+
+export interface StatusBadgeProps {
+  status: 'Pending' | 'Completed';
 }
