@@ -13,13 +13,12 @@
 
 <body>
 
-
   <main class="headline-box">
     <section class="headline">
       <h1 class="main-headline">Save funds by locally exchanging energy</h1>
       <p class="sub-headline">Reduce your energy bill by buying and selling sustainable energy locally. We provide an automated peer-to-peer energy-trading platform to exchange locally produced energy.</p>
       <div class="button-container">
-        <button class="primary-btn">Talk to an Expert</button>
+        <button class="primary-btn" id="expertButton">Talk to an Expert</button>
         <button class="secondary-btn" id="demoButton">Try out a Demo</button>
       </div>
     </section>
@@ -33,9 +32,49 @@
     <p>Your commitment to sustainable energy starts here. We aim to empower communities by enabling local energy exchanges that foster sustainability and reduce costs.</p>
   </section>
 
-  <section class="to-be-added">
-    <h2>Here we can keep adding more things</h2>
-    <p>Placeholder: Yoooo how are you bois, it's 00:41 while I'm working on this part, it's cold and I'm freezing but I love grinding and coding whole night. I hate everything related to java and javascript btw.</p>
+  <section class="how-to-use centered-content">
+    <h2>How to Use the Platform</h2>
+    <div class="steps-container">
+      <div class="step">
+        <img src="img/step1.png" alt="Step 1 Image">
+        <h3>Step 1: Sign Up</h3>
+        <p>Create your account to start accessing our energy trading features.</p>
+      </div>
+      <div class="step">
+        <img src="img/step2.png" alt="Step 2 Image">
+        <h3>Step 2: Set Your Preferences</h3>
+        <p>Define your energy needs or production capacity to match with local buyers or sellers.</p>
+      </div>
+      <div class="step">
+        <img src="img/step3.png" alt="Step 3 Image">
+        <h3>Step 3: Start Trading</h3>
+        <p>Browse available offers or list your own energy for trade, and manage transactions easily.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials centered-content">
+    <h2>What Our Users Say</h2>
+    <div class="testimonial-container">
+      <div class="testimonial">
+        <img src="img/user1.png" alt="User 1">
+        <blockquote>"Our company was struggling with excess energy during off-peak hours, and we had to send it back to the grid. Thanks to Siphon, we've been able to trade our surplus energy and lower our energy costs by 20% in just a few months"</blockquote>
+        <p>- James Schwarzstein.</p>
+        <p id="role">Energy Manager @ EcoWave</p>
+      </div>
+      <div class="testimonial">
+        <img src="img/user2.jpg" alt="User 2">
+        <blockquote>"We were constantly overpaying for energy, especially electricity, during peak hours, which impacted our profitability. Siphon gave us the flexibility to buy affordable energy when needed, cutting our energy expenses by 15%."</blockquote>
+        <p>- Peter Diddieson</p>
+        <p id="role">CFO @ ClearSky Logistics</p>
+      </div>
+      <div class="testimonial">
+        <img src="img/user3.png" alt="User 3">
+        <blockquote>"As a renewable energy provider, we wanted to ensure that none of our solar energy went to waste. Siphon allowed us to monetize excess energy and reinvest in our sustainability efforts. It's truly transformed how we operate."</blockquote>
+        <p>- Kanjij Oost</p>
+        <p id="role">Project Owner @ Greenify</p>
+      </div>
+    </div>
   </section>
 
   <footer class="footer">
@@ -44,10 +83,11 @@
   </footer>
 
   <script>
+      document.getElementById("expertButton").addEventListener("click", function() {
+          window.location.href = "./contact.html"; 
+      });
       document.getElementById("demoButton").addEventListener("click", function() {
-          window.location.href = "https://fanciful-twilight-e6b96d.netlify.app"; 
-          // This link should be replaced with fanciful-twilight-e6b96d.netlify.app/login
-          // However, it weirdly throws error 404, we can find a way around of connecting both ends maybe
+          window.location.href = "./contact.html"; 
       });
   </script>
 </body>
