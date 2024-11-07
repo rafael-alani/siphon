@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import Card from '../../components/Card';
-import { Commodity } from '../../types/api';
+import { Commodity, Company } from '../../types/api';
+import { API_URL } from '../../types/consts';
 
 interface PriceResponse {
   timestamp: string;
@@ -34,13 +35,6 @@ const colors = {
   [Commodity.HYDROGEN]: '#3B82F6',
   [Commodity.GAS]: '#F59E0B',
   [Commodity.HEAT]: '#EF4444',
-};
-
-const getPriceChange = (data: ChartDataPoint[], commodity: keyof Omit<ChartDataPoint, 'timestamp'>): number => {
-  if (!data || data.length < 2) return 0;
-  const firstPrice = data[0][commodity];
-  const lastPrice = data[data.length - 1][commodity];
-  return Number(((lastPrice - firstPrice) / firstPrice) * 100);
 };
 
 const aggregateDataPoints = (data: ChartDataPoint[], timeRange: string): ChartDataPoint[] => {
@@ -151,12 +145,88 @@ const commodityToEndpoint = {
   [Commodity.HEAT]: 'heat',
 } as const;
 
+
+
+interface CommodityAnalytics {
+  percentage_saved: number;
+  volume: string;
+  trades: number;
+}
+
+interface CompanyAnalytics {
+  [Commodity.ELECTRICITY]: CommodityAnalytics;
+  [Commodity.HYDROGEN]: CommodityAnalytics;
+  [Commodity.GAS]: CommodityAnalytics;
+  [Commodity.HEAT]: CommodityAnalytics;
+}
+
+interface AnalyticsState {
+  [companyId: string]: CompanyAnalytics;
+}
+
+// Move this outside the component
+const generateRandomAnalytics = (commodity: Commodity): CommodityAnalytics => ({
+  percentage_saved: Math.floor(Math.random() * 10 + 15),
+  volume: (() => {
+    switch(commodity) {
+      case Commodity.ELECTRICITY: return Math.floor(Math.random() * 100000).toString() + ' MWh';
+      case Commodity.HYDROGEN: return Math.floor(Math.random() * 10000).toString() + ' kg';
+      case Commodity.GAS: return Math.floor(Math.random() * 10000).toString() + ' MMBtu';
+      case Commodity.HEAT: return Math.floor(Math.random() * 10000).toString() + ' GJ';
+    }
+  })(),
+  trades: Math.floor(Math.random() * 50 + 20)
+});
+
 export default function Analytics() {
   const [timeRange, setTimeRange] = useState<'24h' | '7d' | '30d' | '1y'>('24h');
   const [priceData, setPriceData] = useState<ChartDataPoint[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [participants, setParticipants] = useState<Company[]>([]);
+  const [selectedParticipant, setSelectedParticipant] = useState<string>('');
+  const [analytics, setAnalytics] = useState<AnalyticsState>({});
+
+  const [currentCompanyAnalytics, setCurrentCompanyAnalytics] = useState<CompanyAnalytics>({
+    [Commodity.ELECTRICITY]: generateRandomAnalytics(Commodity.ELECTRICITY),
+    [Commodity.HYDROGEN]: generateRandomAnalytics(Commodity.HYDROGEN),
+    [Commodity.GAS]: generateRandomAnalytics(Commodity.GAS),
+    [Commodity.HEAT]: generateRandomAnalytics(Commodity.HEAT)
+  });
 
   useEffect(() => {
+    if (selectedParticipant) {
+      if (!analytics[selectedParticipant]) {
+        setAnalytics({
+          ...analytics,
+          [selectedParticipant]: {
+            [Commodity.ELECTRICITY]: generateRandomAnalytics(Commodity.ELECTRICITY),
+            [Commodity.HYDROGEN]: generateRandomAnalytics(Commodity.HYDROGEN),
+            [Commodity.GAS]: generateRandomAnalytics(Commodity.GAS),
+            [Commodity.HEAT]: generateRandomAnalytics(Commodity.HEAT),
+          }
+        });
+      }
+      setCurrentCompanyAnalytics(analytics[selectedParticipant] || {
+        [Commodity.ELECTRICITY]: generateRandomAnalytics(Commodity.ELECTRICITY),
+        [Commodity.HYDROGEN]: generateRandomAnalytics(Commodity.HYDROGEN),
+        [Commodity.GAS]: generateRandomAnalytics(Commodity.GAS),
+        [Commodity.HEAT]: generateRandomAnalytics(Commodity.HEAT)
+      });
+    }
+  }, [selectedParticipant, analytics]);
+
+  useEffect(() => {
+    const fetchParticipants = async () => {
+      try {
+        const response = await fetch(`${API_URL}/companies`);
+        if (!response.ok) throw new Error('Failed to fetch participants');
+        const data = await response.json();
+        setParticipants(data);
+      } catch (error) {
+        console.error('Error fetching participants:', error);
+      }
+    };
+
     const fetchPrices = async () => {
       setIsLoading(true);
       try {
@@ -238,7 +308,14 @@ export default function Analytics() {
     };
 
     fetchPrices();
+    fetchParticipants();
   }, [timeRange]);
+
+  useEffect(() => {
+    if (participants.length > 0 && !selectedParticipant) {
+      setSelectedParticipant(participants[0].name);
+    }
+  }, [participants]);
 
   if (isLoading) {
     return <div className="flex justify-center items-center h-96">Loading...</div>;
@@ -249,7 +326,7 @@ export default function Analytics() {
       <div className="sm:flex sm:items-center sm:justify-between">
         <h1 className="text-2xl font-semibold text-gray-900">Market Analytics</h1>
         
-        <div className="mt-3 sm:mt-0 sm:ml-4">
+        <div className="mt-3 sm:mt-0 sm:ml-4 flex gap-2">
           <select
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value as typeof timeRange)}
@@ -259,6 +336,21 @@ export default function Analytics() {
             <option value="7d">Last 7 days</option>
             <option value="30d">Last 30 days</option>
             <option value="1y">Last year</option>
+          </select>
+          
+          <select
+            value={selectedParticipant}
+            onChange={(e) => {
+              setSelectedParticipant(e.target.value)
+              console.log(e.target.value);
+            }}
+            className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md"
+          >
+            {participants.map((participant) => (
+              <option key={participant.name} value={participant.name}>
+                {participant.name}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -321,6 +413,7 @@ export default function Analytics() {
           </div>
         </Card>
 
+        
         {commodities.map((commodity) => (
           <Card key={commodity}>
             <h3 className="text-lg font-medium text-gray-900 capitalize mb-4">
@@ -334,22 +427,26 @@ export default function Analytics() {
                 </p>
               </div>
               <div className="space-y-1">
-                <p className="text-sm text-gray-500">Period Change</p>
+                <p className="text-sm text-gray-500">Procentage saved</p>
                 <p className={`text-2xl font-semibold ${
-                  getPriceChange(priceData, commodity.toLowerCase() as keyof Omit<ChartDataPoint, 'timestamp'>) >= 0 
+                  analytics[selectedParticipant]?.[commodity]?.percentage_saved >= 0 
                     ? 'text-green-600' 
                     : 'text-red-600'
                 }`}>
-                  {getPriceChange(priceData, commodity.toLowerCase() as keyof Omit<ChartDataPoint, 'timestamp'>)}%
+                  {analytics[selectedParticipant]?.[commodity]?.percentage_saved ?? 0}%
                 </p>
               </div>
               <div className="space-y-1">
-                <p className="text-sm text-gray-500">24h Volume</p>
-                <p className="text-2xl font-semibold text-gray-900">1,234 kWh</p>
+                <p className="text-sm text-gray-500">Volume</p>
+                <p className="text-2xl font-semibold text-gray-900">
+                  {analytics[selectedParticipant]?.[commodity]?.volume ?? 0}
+                </p>
               </div>
               <div className="space-y-1">
-                <p className="text-sm text-gray-500">Active Trades</p>
-                <p className="text-2xl font-semibold text-gray-900">23</p>
+                <p className="text-sm text-gray-500">Completed Trades</p>
+                <p className="text-2xl font-semibold text-gray-900">
+                  {analytics[selectedParticipant]?.[commodity]?.trades ?? 0}
+                </p>
               </div>
             </div>
           </Card>

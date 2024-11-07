@@ -143,7 +143,7 @@ function TableComponent({ trades }: { trades: Trade[] }) {
               Amount
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Price
+              Price per Unit
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Status
