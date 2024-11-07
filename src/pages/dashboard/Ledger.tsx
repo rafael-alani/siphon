@@ -50,7 +50,14 @@ export default function Ledger() {
       }
     };
 
+    // Initial fetch
     fetchTrades();
+
+    // Set up interval for periodic fetching
+    const intervalId = setInterval(fetchTrades, 1000); // 1000ms = 1s
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   // Update price calculations

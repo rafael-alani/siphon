@@ -13,7 +13,7 @@ export default function Participants() {
     fetchParticipants();
 
     // Set up polling every 30 seconds
-    const intervalId = setInterval(fetchParticipants, 30000);
+    const intervalId = setInterval(fetchParticipants, 1000);
 
     // Cleanup on component unmount
     return () => clearInterval(intervalId);
@@ -29,6 +29,13 @@ export default function Participants() {
       console.error('Error fetching participants:', error);
     }
   };
+
+ 
+  // Filter participants based on selected commodity
+  const filteredParticipants = participants.filter((participant) => {
+    const commodities: Commodity[] = participant.statuses.map((status) => status.commodity);
+    return commodities.includes(selectedCommodity);
+  });
 
   return (
     <div className="space-y-6">
@@ -55,7 +62,7 @@ export default function Participants() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {participants.map((participant) => (
+        {filteredParticipants.map((participant) => (
           <Card key={participant.name}>
             <div className="space-y-4">
               <div className="flex justify-between items-start">
