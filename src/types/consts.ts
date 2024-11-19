@@ -1,4 +1,4 @@
 import { Commodity } from "./api";
 
-export const API_URL: string = "http://localhost:8000";
+export const API_URL: string = "https://siphon-backend.fly.dev";
 export const commodities: Commodity[] = [Commodity.ELECTRICITY, Commodity.HYDROGEN, Commodity.GAS, Commodity.HEAT];

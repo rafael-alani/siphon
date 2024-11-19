@@ -232,7 +232,7 @@ export default function Analytics() {
       try {
         const responses = await Promise.all(
           commodities.map(commodity =>
-            fetch(`http://localhost:8000/analytics/market-prices/${commodityToEndpoint[commodity]}/${timeFrameMap[timeRange]}`)
+          fetch(API_URL + `/analytics/market-prices/${commodityToEndpoint[commodity]}/${timeFrameMap[timeRange]}`)
               .then(res => res.json())
               .then((data: PriceResponse[]) => data)
           )
