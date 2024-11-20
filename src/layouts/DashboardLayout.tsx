@@ -24,7 +24,7 @@ export default function DashboardLayout() {
             <Link to="/" className="flex items-center">
               <div className="flex-shrink-0 flex items-center font-['Raleway']">
                 <img 
-                  src="/old_site/img/transparent-logo.png" 
+                  src="/public/old_site/img/transparent-logo.png" 
                   alt="Siphon Logo" 
                   className="w-[60px] mr-2.5" 
                 />

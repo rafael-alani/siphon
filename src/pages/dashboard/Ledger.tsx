@@ -1,8 +1,8 @@
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Commodity, TradeStatus, TradeType } from '../../../src/types/api';
 import Card from '../../components/Card';
 import StatusBadge from '../../components/StatusBadge';
+import { Commodity, TradeStatus, TradeType } from '../../types/api';
 import { API_URL } from '../../types/consts';
 // Update the Trade type to match the API model
 interface Trade {
@@ -35,12 +35,14 @@ export default function Ledger() {
   useEffect(() => {
     const fetchTrades = async () => {
       try {
+        console.log("we here");
         const [offersRes, requestsRes, historyRes] = await Promise.all([
           fetch(API_URL + '/trades/offers').then(res => res.ok ? res.json() : Promise.reject(`Offers API error: ${res.status}`)),
           fetch(API_URL + '/trades/requests').then(res => res.ok ? res.json() : Promise.reject(`Requests API error: ${res.status}`)),
           fetch(API_URL + '/trades/history').then(res => res.ok ? res.json() : Promise.reject(`History API error: ${res.status}`))
         ]);
 
+        console.log(historyRes);
         setOffers(offersRes);
         setRequests(requestsRes);
         setTradeHistory(historyRes);
