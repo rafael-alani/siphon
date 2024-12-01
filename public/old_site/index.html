@@ -12,7 +12,6 @@
 </head>
 
 <body>
-
   <main class="headline-box">
     <section class="headline">
       <h1 class="main-headline">Save funds by locally exchanging energy</h1>
@@ -28,11 +27,22 @@
   </main>
 
   <section class="manifesto">
-    <h2>Our Manifesto</h2>
-    <p>Your commitment to sustainable energy starts here. We aim to empower communities by enabling local energy exchanges that foster sustainability and reduce costs.</p>
+    <p>Companies within industrial terrains experience the issues of net congestion more frequently by the day, such as power outages, low returns on energy surpluses, and expensive energy bills. Siphon addresses these issues by providing an AI-based platform on which participants can exchange locally produced energy in order to increase the reliability of their energy, reduce their energy expenses, and automatically avoid the impending risk of net congestion!</p>
   </section>
 
-  <section class="how-to-use centered-content">
+  <section class="benefits">
+    <h2>Benefits of Siphon</h2>
+    <div class="benefits-container">
+      <img src="img/benefitsimage.jpg" alt="Benefits Image">
+      <ul>
+        <li>Save up to 20% on your energy expenses</li>
+        <li>Easily verify the origin and sustainability of your energy</li>
+        <li>Let it all be done automatically by our AI agent!</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="how-to-use">
     <h2>How to Use the Platform</h2>
     <div class="steps-container">
       <div class="step">
@@ -53,7 +63,7 @@
     </div>
   </section>
 
-  <section class="testimonials centered-content">
+  <section class="testimonials">
     <h2>What Our Users Say</h2>
     <div class="testimonial-container">
       <div class="testimonial">
@@ -77,9 +87,29 @@
     </div>
   </section>
 
+  <section class="call-to-action">
+    <h2>Ready to reduce your energy bill?</h2>
+    <button class="primary-btn" id="ctaButton">Talk to an Expert</button>
+  </section>
+
   <footer class="footer">
-    <p>&copy; 2024 Siphon Energy Solutions. All rights reserved.</p>
-    <p>Musab, Wishaal, Rafael, Ruben, Jan-Julius</p>
+    <div class="footer-container">
+      <div class="footer-left">
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">General Terms and Conditions</a></li>
+        </ul>
+      </div>
+      <div class="footer-right">
+        <p>Follow Us</p>
+        <a href="#">LinkedIn</a> | <a href="#">Instagram</a> | <a href="#">YouTube</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 Siphon Energy Solutions. All rights reserved.</p>
+      <p>Musab, Wishaal, Rafael, Ruben, Jan-Julius</p>
+    </div>
   </footer>
 
   <script>
@@ -87,6 +117,9 @@
           window.location.href = "./contact.html"; 
       });
       document.getElementById("demoButton").addEventListener("click", function() {
+          window.location.href = "./contact.html"; 
+      });
+      document.getElementById("ctaButton").addEventListener("click", function() {
           window.location.href = "./contact.html"; 
       });
   </script>

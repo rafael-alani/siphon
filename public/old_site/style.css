@@ -141,12 +141,13 @@ button:hover {
   transition: transform 0.3s ease;
 }
 
-.manifesto h2 {
+/*.manifesto h2 {
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 15px;
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8); /* Adds a soft glow effect */
-}
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+} Not necessary anymore since we deleted "our manifesto" text
+*/
 
 .manifesto p {
   max-width: 600px;
@@ -156,7 +157,63 @@ button:hover {
   color: #555;
 }
 
-.to-be-added:hover, .manifesto:hover, .testimonial:hover, .step img:hover {
+.benefits {
+  padding: 40px 10%;
+  background-color: #f5f5f5;
+  text-align: center;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+
+.benefits h2 {
+  font-size: 1.8rem;
+  color: #0056b3;
+  margin-bottom: 20px;
+  padding-top: 10px;
+}
+
+.benefits-container {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-bottom: 25px;
+}
+
+.benefits-container img {
+  width: 100%;
+  max-width: 350px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.benefits-container ul {
+  list-style: none;
+  text-align: left;
+  padding: 0;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+}
+
+.benefits-container li {
+  margin-bottom: 10px;
+  position: relative;
+  padding-left: 25px;
+}
+
+.benefits-container li:before {
+  content: '✔';
+  color: #007bff;
+  position: absolute;
+  left: 0;
+  font-size: 1rem;
+  top: 0;
+}
+
+.to-be-added:hover, .manifesto:hover, .testimonial:hover, .step img:hover, .benefits:hover {
   transform: translateY(-5px);  /* Slight lift effect on hover */
 }
 
@@ -268,15 +325,99 @@ button:hover {
   font-size: 0.9rem;
 }
 
+.call-to-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 20%;
+  background-color: #007bff;
+  margin-bottom: 20px;
+}
+
+.call-to-action h2 {
+  flex: 1;
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin: 0;
+}
+
+.call-to-action button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background-color: #ffffff;
+  color: #007bff;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.call-to-action button:hover {
+  background-color: #e5f2ff;
+  transform: scale(1.05);
+}
+
 .footer {
   background-color: #333;
   color: #fff;
-  text-align: center;
-  padding: 20px 10%;
-  font-size: 0.9rem;
+  padding: 10px 20%;
 }
 
-.footer p {
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.footer-left ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-left ul li {
+  margin-bottom: 10px;
+}
+
+.footer-left ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.footer-left ul li a:hover {
+  color: #007bff;
+}
+
+.footer-right p {
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+.footer-right a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.footer-right a:hover {
+  color: #007bff;
+}
+
+.footer-bottom {
+  border-top: 1px solid #555;
+  padding-top: 10px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.footer-bottom p {
   margin: 5px 0;
 }
 
@@ -352,6 +493,19 @@ button:hover {
     padding: 10px 20px;
   }
 
+  .benefits-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .benefits-container img {
+    max-width: 300px;
+  }
+
+  .benefits h2 {
+    font-size: 1.6rem;
+  }
+
   .testimonial p {
     font-size: 0.9rem;
   }
@@ -360,11 +514,37 @@ button:hover {
     font-size: 0.9rem;
   }
 
+  .call-to-action {
+    padding: 20px 5%;
+    gap: 5px;
+  }
+
+  .call-to-action h2 {
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+  }
+
+  .call-to-action button {
+    align-self: center;
+    font-size: 0.9rem;
+    margin-right: 5px;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-left,
+  .footer-right {
+    max-width: 100%;
+  }
+
   .footer {
     background-color: #333;
     color: #fff;
     text-align: center;
-    padding: 10px 2%;
+    padding: 20px 2%;
     font-size: 0.9rem;
   }
 }
