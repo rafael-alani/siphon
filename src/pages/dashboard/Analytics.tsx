@@ -414,43 +414,54 @@ export default function Analytics() {
         </Card>
 
         
-        {commodities.map((commodity) => (
-          <Card key={commodity}>
-            <h3 className="text-lg font-medium text-gray-900 capitalize mb-4">
-              {commodity}
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1">
-                <p className="text-sm text-gray-500">Current Price</p>
-                <p className="text-2xl font-semibold text-gray-900">
-                  €{priceData.length > 0 ? priceData[priceData.length - 1][commodity.toLowerCase() as keyof Omit<ChartDataPoint, 'timestamp'>].toFixed(2) : '0.00'}
-                </p>
+        {commodities.map((commodity) => {
+          const currentPrice = priceData.length > 0 ? priceData[priceData.length - 1][commodity.toLowerCase() as keyof Omit<ChartDataPoint, 'timestamp'>]: 31;
+
+          const analyticsData = analytics[selectedParticipant]?.[commodity];
+
+          const volume = parseFloat(analyticsData?.volume ?? '0');
+          const trades = analyticsData?.trades ?? 0;
+          const percentageSaved = analyticsData?.percentage_saved ?? 0;
+          const moneySaved = (volume * currentPrice * (percentageSaved / 100) / (trades * 5)).toFixed(2);
+
+          return (
+            <Card key={commodity}>
+              <h3 className="text-lg font-medium text-gray-900 capitalize mb-4">
+                {commodity}
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <p className="text-sm text-gray-500">Current Price</p>
+                  <p className="text-2xl font-semibold text-gray-900">
+                    €{currentPrice.toFixed(2)}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm text-gray-500">Money Saved</p>
+                  <p className={`text-2xl font-semibold ${
+                    Number(moneySaved) >= 0
+                      ? 'text-green-600'
+                      : 'text-red-600'
+                  }`}>
+                    €{moneySaved}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm text-gray-500">Volume</p>
+                  <p className="text-2xl font-semibold text-gray-900">
+                    {analyticsData?.volume ?? '0'}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm text-gray-500">Completed Trades</p>
+                  <p className="text-2xl font-semibold text-gray-900">
+                    {trades}
+                  </p>
+                </div>
               </div>
-              <div className="space-y-1">
-                <p className="text-sm text-gray-500">Procentage saved</p>
-                <p className={`text-2xl font-semibold ${
-                  analytics[selectedParticipant]?.[commodity]?.percentage_saved >= 0 
-                    ? 'text-green-600' 
-                    : 'text-red-600'
-                }`}>
-                  {analytics[selectedParticipant]?.[commodity]?.percentage_saved ?? 0}%
-                </p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-sm text-gray-500">Volume</p>
-                <p className="text-2xl font-semibold text-gray-900">
-                  {analytics[selectedParticipant]?.[commodity]?.volume ?? 0}
-                </p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-sm text-gray-500">Completed Trades</p>
-                <p className="text-2xl font-semibold text-gray-900">
-                  {analytics[selectedParticipant]?.[commodity]?.trades ?? 0}
-                </p>
-              </div>
-            </div>
-          </Card>
-        ))}
+            </Card>
+          );
+        })}
       </div>
     </div>
   );
